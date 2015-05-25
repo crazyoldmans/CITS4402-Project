@@ -16,9 +16,7 @@
 % Credits: Thanks for initial version of this program to D. Alvaro and 
 %          J.J. Guerrero, Universidad de Zaragoza (modified by D. Lowe)
 
-function [image, descriptors, locs] = sift(imageFile)
-
-imageFile
+function [descriptors, locs] = sift(imageFile)
 % Load image
 image = imread(imageFile);
 
@@ -46,7 +44,7 @@ else
     command = '!sift\siftWin32 ';
 end
 command = [command ' <sift/tmp.pgm >sift/tmp.key'];
-eval(command);
+evalc(command);
 
 % Open tmp.key and check its header
 g = fopen('sift/tmp.key', 'r');

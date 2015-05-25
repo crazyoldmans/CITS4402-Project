@@ -28,7 +28,7 @@ function [objects, scenes] = init
     end
     
     object_names = cell(1, length(objects_dir)-2);
-    image_names = cell(1, length(objects_dir)-2);
+    image_names  = cell(1, length(objects_dir)-2);
     
     % Scan each folder in the img/objects directory
     for i=3:length(objects_dir)
