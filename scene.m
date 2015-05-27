@@ -14,7 +14,7 @@ For the CITS4402 2015 project.
     Parts of this function were extracted and modified from match.m,
     provided in the SIFT demo.
 %}
-function scene(obj, scn, objects, scenes, data)
+function scene(obj, scn, objects, scenes, thrs, data)
     data.txt4.String = 'Processing ';
     drawnow
 
@@ -43,10 +43,12 @@ function scene(obj, scn, objects, scenes, data)
         loc1 = tmp_obj.loc{i};
         loc2 = tmp_scn.loc;
         
-        overlay(im1, im2, des1, loc1, loc2, match, data);
-        
-        data.txt4.String = ['Found ', num2str(num), ' matches.'];
-        
+        if (num > thrs)
+            overlay(im1, im2, des1, loc1, loc2, match, data);
+            data.txt4.String = ['Found ', num2str(num), ' matches.'];
+        else
+            data.txt4.String = ['Insufficient matches. (', num2str(num), ')'];
+        end
     end
 
 end

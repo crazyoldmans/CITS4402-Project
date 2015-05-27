@@ -14,7 +14,7 @@ For the CITS4402 2015 project.
     Parts of this function were extracted and modified from match.m,
     provided in the SIFT demo.
 %}
-function detected_obj = scene_all(scn, objects, scenes, data)
+function detected_obj = scene_all(scn, objects, scenes, thrs, data)
 
     tmp_scn  = scenes( strcmp({scenes.name}, scn) );
 
@@ -32,18 +32,14 @@ function detected_obj = scene_all(scn, objects, scenes, data)
                     
                     num = match_mod(objects(j).desc{i}, tmp_scn.desc);
 
-                    if (num > 0)
+                    if (num > thrs)
                         detected_obj{end+1} = objects(j).name;
                         break
                     end
-                end
+            	end
             end
         end
-        
-        z = accuracy(detected_obj, scn);
-        z = z*100;
-    data.txt4.String = ['Found ', num2str(length(detected_obj)), ' matching objects. Accuracy: ', num2str(z), '%'];
-    
-    
-
+    	acc = accuracy(detected_obj, scn);
+        data.txt4.String = ['Found ', num2str(length(detected_obj)), ' matching objects. Accuracy: ', num2str(acc), '%'];
+    end
 end

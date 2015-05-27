@@ -12,6 +12,6 @@ function acc = accuracy( detected_obj, scn)
         end
     end
       
-    acc=count/length(tmp);
+    acc = 100 * count/length(tmp);
 
 end

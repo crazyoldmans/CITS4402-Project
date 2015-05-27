@@ -35,7 +35,15 @@ function gui(objects, scenes)
                 'Position', [20, 130, 120, 30], ...
                 'Callback', {@match_button_Callback} ...
                );
-
+           
+    % Initialise editable text box element
+    hedt1    = uicontrol( ...
+                'Style',    'edit', ...
+                'String',   '1', ...
+                'Position', [100, 100, 30, 20], ...
+                'Callback', {@thrs_edit_Callback} ...
+               );
+    
     % Initialise popup menu element
     hpop1     = uicontrol( ...
                 'Style',    'popup', ...
@@ -84,7 +92,7 @@ function gui(objects, scenes)
                 'String',    'Standing by.', ...
                 'FontSize',  11, ...
                 'FontName',  'Courier', ...
-                'Position',  [20, 50, 150, 75] ...
+                'Position',  [20, 10, 150, 70] ...
                );
     htxt5    = uicontrol( ...
                 'Style',    'text', ...
@@ -98,6 +106,12 @@ function gui(objects, scenes)
                 'String',   'Detected objects:', ...
                 'FontSize',   11, ...
                 'Position', [20, 200, 120, 18] ...
+               );
+    htxt7    = uicontrol( ...
+                'Style',    'text', ...
+                'String',   'Threshold:', ...
+                'FontSize',   11, ...
+                'Position', [20, 100, 80, 18] ...
                );
            
      % Initialise image elements
@@ -121,12 +135,15 @@ function gui(objects, scenes)
     hbtn2.Units    = 'normalized';
     hbtn3.Units    = 'normalized';
     
+    hedt1.Units    = 'normalized';
+    
     htxt1.Units    = 'normalized';
     htxt2.Units    = 'normalized';
     htxt3.Units    = 'normalized';
     htxt4.Units    = 'normalized';
     htxt5.Units    = 'normalized';
     htxt6.Units    = 'normalized';
+    htxt7.Units    = 'normalized';
  
     % Assign a name to appear in the window title.
     f.Name = 'CITS4402 Project';
@@ -139,9 +156,11 @@ function gui(objects, scenes)
     tmp2 = {scenes.name};
     cur_obj  = tmp1(1);
     cur_scn  = tmp2(1);
+    thrs = 1;
     guidata(f, struct( ...
         'ha1',     ha1, ...
         'txt4',    htxt4, ...
+        'thrs',    thrs, ...
         'hpop3',   hpop3, ...
         'hbtn3',   hbtn3, ...
         'cur_obj', cur_obj, ...
@@ -151,13 +170,29 @@ function gui(objects, scenes)
     % Make the UI visible.
     f.Visible = 'on';
     
+    function thrs_edit_Callback(source, eventdata) 
+    % Do
+        data = guidata(source);
+
+        str = get(source, 'String');
+        
+        if isempty(str2num(str))
+            set(source, 'String', 1);
+            warndlg('Input must be numerical');
+        else
+            thrs = str2num(str);
+        end
+        
+        guidata(source, data);
+    end
+    
     function match_button_Callback(source, eventdata) 
     % Do
         data = guidata(source);
 
         data.txt4.String = 'Processing...';
         drawnow
-        scene(cur_obj, cur_scn, objects, scenes, data);
+        scene(cur_obj, cur_scn, objects, scenes, thrs, data);
         guidata(source, data);
     end
 
@@ -171,7 +206,7 @@ function gui(objects, scenes)
         data.txt4.String = 'Processing...';
         drawnow
         
-        detected_obj = scene_all(cur_scn, objects, scenes, data);
+        detected_obj = scene_all(cur_scn, objects, scenes, thrs, data);
         
         data.hpop3.String = detected_obj;
         data.hpop3.Enable = 'on';
