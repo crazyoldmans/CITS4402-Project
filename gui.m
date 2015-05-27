@@ -39,11 +39,11 @@ function gui(objects, scenes)
     % Initialise editable text box element
     hedt1    = uicontrol( ...
                 'Style',    'edit', ...
-                'String',   '1', ...
+                'String',   '10', ...
                 'Position', [100, 100, 30, 20], ...
                 'Callback', {@thrs_edit_Callback} ...
                );
-    
+
     % Initialise popup menu element
     hpop1     = uicontrol( ...
                 'Style',    'popup', ...
@@ -156,7 +156,7 @@ function gui(objects, scenes)
     tmp2 = {scenes.name};
     cur_obj  = tmp1(1);
     cur_scn  = tmp2(1);
-    thrs = 1;
+    thrs = 10;
     guidata(f, struct( ...
         'ha1',     ha1, ...
         'txt4',    htxt4, ...
@@ -208,12 +208,18 @@ function gui(objects, scenes)
         
         detected_obj = scene_all(cur_scn, objects, scenes, thrs, data);
         
-        data.hpop3.String = detected_obj;
-        data.hpop3.Enable = 'on';
-        data.hbtn3.Enable = 'on';
+        if (length(detected_obj) > 0)
+            data.hpop3.String = detected_obj;
+            data.hpop3.Enable = 'on';
+            data.hbtn3.Enable = 'on';
         
-        cur_obj = detected_obj{1};
-        
+            cur_obj = detected_obj{1};
+        else
+            data.hpop3.String = '';
+            data.hpop3.Enable = 'off';
+            data.hbtn3.Enable = 'off';
+        end
+
         guidata(source, data);
     end
 
