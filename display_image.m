@@ -1,16 +1,13 @@
-% num = match(image1, image2)
-%
-% This function reads two images, finds their SIFT features, and
-%   displays lines connecting the matched keypoints.  A match is accepted
-%   only if its distance is less than distRatio times the distance to the
-%   second closest match.
-%   It also outlines the object, localizing it within the scene
-% It returns the number of matches displayed.
-%
-% Example: match('scene.pgm','book.pgm');
-%
-% MODIFIED FOR CITS4402 PROJECT
-function overlay(im1, im2, des1, loc1, loc2, match, data)
+%{
+display_image.m
+By Alexander Mazur, 20516281
+For the CITS4402 2015 project
+    This function takes in two images and their corresponding SIFT keypoint
+    data, and then displays them to the GUI. It also overlays blue lines to
+    connect the matching keypoints, and an edge-detection based overlay of
+    the detected image.
+%}
+function display_image(im1, im2, des1, loc1, loc2, match, data)
     % Calculate the affine transformations necessary to move the outline
     %of the object of concern over on to the scene image
 
@@ -19,20 +16,20 @@ function overlay(im1, im2, des1, loc1, loc2, match, data)
     
     for i = 1: size(des1,1)
       if (match(i) > 0)
-        z = i
+        z = i;
         break
 
       end
     end
     for j = z+1: size(des1,1)
         if(match(j) > 0)
-            x = j
+            x = j;
             break
         end
     end
     for p = j+1: size(des1,1)
         if(match(j) > 0)
-            f = p
+            f = p;
             break
         end
     end
@@ -56,8 +53,8 @@ function overlay(im1, im2, des1, loc1, loc2, match, data)
             outline = fliplr(outline);
         end
         outline = imresize(outline, [newx NaN]);
-        rowshift = round((loc2(match(z),1) - loc1(z,1))) + size(im1,1) - size(outline,1)
-        colshift = round(((loc2(match(z),2)+size(im1,2))-loc1(z,2))) + size(im1,2) - size(outline,2)
+        rowshift = round((loc2(match(z),1) - loc1(z,1))) + size(im1,1) - size(outline,1);
+        colshift = round(((loc2(match(z),2)+size(im1,2))-loc1(z,2))) + size(im1,2) - size(outline,2);
 
         out2 = padarray(outline,[abs(size(im1,1) - size(im2,1)) size(im2,2)], 'post');
 

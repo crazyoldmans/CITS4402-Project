@@ -1,12 +1,19 @@
+%{
+match_mod.m
+Authors:
+    Alexander Mazur, 20516281
+    Dominic Cockman, 20927611
+
+For the CITS4402 2015 project.
+    This function takes a pair of SIFT descriptors and returns both the
+    number of matches and matches themselves.
+
+    This function is sourced heavily from the match.m file accompanying the
+    SIFT demo.
+%}
 function [ num, match ] = match_mod( des1, des2 )
-%MATCH_MOD Summary of this function goes here
-%   Detailed explanation goes here
-	
     distRatio = 0.6;
-
-    %[des1, loc1] = sift(image1);
-	%[des2, loc2] = sift(image2);
-
+    
 	des2t = des2';
     match = zeros(1, size(des1,1));
 	for i = 1 : size(des1,1)

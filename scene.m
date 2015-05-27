@@ -10,9 +10,6 @@ For the CITS4402 2015 project.
 
     The function tests a variety of inputted images against a scene, and
     returns the image that has the greatest match.
-
-    Parts of this function were extracted and modified from match.m,
-    provided in the SIFT demo.
 %}
 function scene(obj, scn, objects, scenes, thrs, data)
     data.txt4.String = 'Processing ';
@@ -27,6 +24,7 @@ function scene(obj, scn, objects, scenes, thrs, data)
     scn_str = strcat('img/scenes/', tmp_scn.name);
 
     if (~isempty(tmp_obj.images))
+        % Compare each image associated with the object with the scene
         for i=1:length(tmp_obj.images)
             tmp_nums{i} = match_mod(tmp_obj.desc{i}, tmp_scn.desc);
         end
@@ -44,7 +42,7 @@ function scene(obj, scn, objects, scenes, thrs, data)
         loc2 = tmp_scn.loc;
         
         if (num > thrs)
-            overlay(im1, im2, des1, loc1, loc2, match, data);
+            display_image(im1, im2, des1, loc1, loc2, match, data);
             data.txt4.String = ['Found ', num2str(num), ' matches.'];
         else
             data.txt4.String = ['Insufficient matches. (', num2str(num), ')'];

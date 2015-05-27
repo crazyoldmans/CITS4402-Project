@@ -6,8 +6,12 @@ Authors:
 
 For the CITS4402 2015 project.
     This function looks through the 'img' folder and detects what images
-    are available for sift detection. It ouputs a data structure containing
-    all objects and their corresponding image file names.
+    are available for sift detection. It then runs the SIFT algorithm on 
+    each of these images and generates keypoint data.
+
+    The function outputs a data structure containing all objects and their 
+    corresponding image file names, descriptors and locators. A second data
+    structure containing similar data for the scenes is also outputted.
 
     To use the object data structure:
         objects = init
@@ -19,14 +23,13 @@ For the CITS4402 2015 project.
         objects(1).loc         % SIFT - The keypoint locators for this image
         {objects.name}         % An array of the names of all objects
 
-    A second array containing all the detected scene images is also given:
+    The scene data structure is similar:
         scenes(1).name
         scenes(1).desc
         scenes(1).loc
 %}
 function [objects, scenes] = init
-
-    % Progress bar!
+    % Progress bar
     h = waitbar(0,'Pre-calculating training data from objects and scenes. Please wait...');
     steps = 1000;
     waitbar(0 / steps)

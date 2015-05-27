@@ -17,6 +17,8 @@ For the CITS4402 2015 project.
 
     Scenes will be extracted from:
         img/scenes/SCENE_NAME.jpg
+
+    For further information, see README.md
 %}
 function project
     [objects, scenes] = init;

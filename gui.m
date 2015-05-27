@@ -170,8 +170,9 @@ function gui(objects, scenes)
     % Make the UI visible.
     f.Visible = 'on';
     
+    % This function sets the internal threshold variable when the value is
+    % changed on the GUI
     function thrs_edit_Callback(source, eventdata) 
-    % Do
         data = guidata(source);
 
         str = get(source, 'String');
@@ -186,8 +187,9 @@ function gui(objects, scenes)
         guidata(source, data);
     end
     
+    % This function calls the scene.m function to process the currently
+    % selected scene and object and display the results on the GUI
     function match_button_Callback(source, eventdata) 
-    % Do
         data = guidata(source);
 
         data.txt4.String = 'Processing...';
@@ -196,8 +198,9 @@ function gui(objects, scenes)
         guidata(source, data);
     end
 
+    % This function calls the scene_all.m function to process the currently
+    % selected scene, and update the appropriate list on the GUI
 	function matchall_button_Callback(source, eventdata) 
-    % Do
         data = guidata(source);
 
         data.hpop3.Enable = 'off';
@@ -211,20 +214,23 @@ function gui(objects, scenes)
         if (length(detected_obj) > 0)
             data.hpop3.String = detected_obj;
             data.hpop3.Enable = 'on';
+            data.hpop3.Value  = 1;
             data.hbtn3.Enable = 'on';
         
             cur_obj = detected_obj{1};
         else
             data.hpop3.String = '';
             data.hpop3.Enable = 'off';
+            data.hpop3.Value  = 1;
             data.hbtn3.Enable = 'off';
         end
 
         guidata(source, data);
     end
 
+    % This function updates the internal object variable when a new object
+    % is selected
     function obj_popup_Callback(source, eventdata)
-    % Descr
         data = guidata(source);
 
         cur_obj = source.String{source.Value};
@@ -232,8 +238,10 @@ function gui(objects, scenes)
         guidata(source, data);
     end
 
+    % This function updates the internal scene variable when a new scene is
+    % selected. Additionally, this function displays the scene on the left
+    % of the GUI.
     function scene_popup_Callback(source, eventdata)
-    % Descr
         data = guidata(source);
         
         data.txt4.String = 'Loading scene...';

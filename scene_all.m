@@ -8,11 +8,9 @@ For the CITS4402 2015 project.
     This function looks calls the MATLAB functions provided in the SIFT
     demo in order to find if an object exists in a scene.
 
-    The function tests a variety of inputted images against a scene, and
-    returns the image that has the greatest match.
-
-    Parts of this function were extracted and modified from match.m,
-    provided in the SIFT demo.
+    The function tests every single object in the database against the
+    given scene, and then updates the GUI with a list of matched objects
+    and an accuracy rating.
 %}
 function detected_obj = scene_all(scn, objects, scenes, thrs, data)
 
@@ -23,6 +21,7 @@ function detected_obj = scene_all(scn, objects, scenes, thrs, data)
     detected_obj = {};
     
     if (length({objects.name}) > 0)
+        % Compare each image associated with each object with the scene
         for j=1:length({objects.name})
             if (length(objects(j).images) > 0)
                 for i=1:length(objects(j).images)
