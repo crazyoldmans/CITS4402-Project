@@ -14,10 +14,11 @@ For the CITS4402 2015 project.
     Parts of this function were extracted and modified from match.m,
     provided in the SIFT demo.
 %}
-function detected_obj = scene_all(scn, objects, data)
+function detected_obj = scene_all(scn, objects, scenes, data)
+
+    tmp_scn  = scenes( strcmp({scenes.name}, scn) );
 
     addpath('sift');
-    scn_str = strcat('img/scenes/', scn);
     
     detected_obj = {};
     
@@ -25,12 +26,11 @@ function detected_obj = scene_all(scn, objects, data)
         for j=1:length({objects.name})
             if (length(objects(j).images) > 0)
                 for i=1:length(objects(j).images)
-                    data.txt4.String = ['Processing ', num2str(i), '/', num2str(length(objects(j).images)), ...
-                        ' of ', num2str(j), '/', num2str(length({objects.name}))];
+                    data.txt4.String = ['Processing ', num2str(j), '/', ...
+                        num2str(length({objects.name}))];
                     drawnow
                     
-                    obj_str = strcat('img/objects/', objects(j).name, '/', objects(j).images(i));
-                    num = match_mod(char(obj_str), char(scn_str));
+                    num = match_mod(objects(j).desc{i}, tmp_scn.desc);
 
                     if (num > 0)
                         detected_obj{end+1} = objects(j).name;
@@ -40,6 +40,8 @@ function detected_obj = scene_all(scn, objects, data)
             end
         end
         
-    data.txt4.String = ['Found ', length(detected_obj), ' matching objects.'];
+    data.txt4.String = ['Found ', num2str(length(detected_obj)), ' matching objects.'];
     
+    
+    accuracy(detected_obj, scn);
 end

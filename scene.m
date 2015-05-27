@@ -14,35 +14,36 @@ For the CITS4402 2015 project.
     Parts of this function were extracted and modified from match.m,
     provided in the SIFT demo.
 %}
-function scene(obj, scn, objects, data)
+function scene(obj, scn, objects, scenes, data)
+    data.txt4.String = 'Processing ';
+    drawnow
 
     addpath('sift');
     
-    %[image, descrips, locs] = sift('img/scenes/scene.pgm');
-    %showkeys(image, locs);
-
     tmp_obj  = objects( strcmp({objects.name}, obj) );
+    tmp_scn  = scenes( strcmp({scenes.name}, scn) );
     tmp_nums = cell(1, length(tmp_obj.images));
     
-    scn_str = strcat('img/scenes/', scn);
+    scn_str = strcat('img/scenes/', tmp_scn.name);
 
-    if (length(tmp_obj.images) > 0)
+    if (~isempty(tmp_obj.images))
         for i=1:length(tmp_obj.images)
-            data.txt4.String = ['Processing ', num2str(i), '/', num2str(length(tmp_obj.images))];
-            drawnow
-            obj_str = strcat('img/objects/', obj, '/', tmp_obj.images(i));
-            tmp_nums{i} = match_mod(char(obj_str), char(scn_str));
+            tmp_nums{i} = match_mod(tmp_obj.desc{i}, tmp_scn.desc);
         end
      
-        [m,i] = max(cell2mat(tmp_nums));
+        [~,i] = max(cell2mat(tmp_nums));
         obj_str = strcat('img/objects/', obj, '/', tmp_obj.images(i));
-        [num, des1, des2, loc1, loc2, match] = match_mod(char(obj_str), char(scn_str));
+        [num, match] = match_mod(tmp_obj.desc{i}, tmp_scn.desc);
         
         % Draw both images with lines connecting matched keypoints
         im1 = imread(char(obj_str));
         im2 = imread(char(scn_str));
         im3 = appendimages(im1,im2);
 
+        des1 = tmp_obj.desc{i};
+        loc1 = tmp_obj.loc{i};
+        loc2 = tmp_scn.loc;
+        
         axes(data.ha1);
         
         colormap('gray');

@@ -46,7 +46,7 @@ function gui(objects, scenes)
     % Initialise popup menu element
     hpop2     = uicontrol( ...
                 'Style',    'popup', ...
-                'String',   scenes, ...
+                'String',   {scenes.name}, ...
                 'Position', [20, 430, 120, 30], ...
                 'Callback', {@scene_popup_Callback} ...
                );
@@ -135,9 +135,10 @@ function gui(objects, scenes)
     movegui(f,'center')
 
     % Share GUI elements with callbacks
-    tmp = {objects.name};
-    cur_obj  = tmp(1);
-    cur_scn  = scenes(1);
+    tmp1  = {objects.name};
+    tmp2 = {scenes.name};
+    cur_obj  = tmp1(1);
+    cur_scn  = tmp2(1);
     guidata(f, struct( ...
         'ha1',     ha1, ...
         'txt4',    htxt4, ...
@@ -156,7 +157,7 @@ function gui(objects, scenes)
 
         data.txt4.String = 'Processing...';
         drawnow
-        scene(cur_obj, cur_scn, objects, data);
+        scene(cur_obj, cur_scn, objects, scenes, data);
         guidata(source, data);
     end
 
@@ -170,7 +171,7 @@ function gui(objects, scenes)
         data.txt4.String = 'Processing...';
         drawnow
         
-        detected_obj = scene_all(cur_scn, objects, data);
+        detected_obj = scene_all(cur_scn, objects, scenes, data);
         
         data.hpop3.String = detected_obj;
         data.hpop3.Enable = 'on';

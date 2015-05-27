@@ -1,13 +1,14 @@
-function [ num, des1, des2, loc1, loc2, match ] = match_mod( image1, image2 )
+function [ num, match ] = match_mod( des1, des2 )
 %MATCH_MOD Summary of this function goes here
 %   Detailed explanation goes here
 	
     distRatio = 0.6;
 
-    [des1, loc1] = sift(image1);
-	[des2, loc2] = sift(image2);
+    %[des1, loc1] = sift(image1);
+	%[des2, loc2] = sift(image2);
 
 	des2t = des2';
+    match = zeros(1, size(des1,1));
 	for i = 1 : size(des1,1)
         dotprods = des1(i,:) * des2t;
         [vals,indx] = sort(acos(dotprods));
