@@ -40,8 +40,10 @@ function detected_obj = scene_all(scn, objects, scenes, data)
             end
         end
         
-    data.txt4.String = ['Found ', num2str(length(detected_obj)), ' matching objects.'];
+        z = accuracy(detected_obj, scn);
+        z = z*100;
+    data.txt4.String = ['Found ', num2str(length(detected_obj)), ' matching objects. Accuracy: ', num2str(z), '%'];
     
     
-    accuracy(detected_obj, scn);
+
 end
