@@ -52,10 +52,10 @@ function display_image(im1, im2, des1, loc1, loc2, match, data)
         if 1/scalefactorx*size(outline,2)-0.25 < 0
             outline = fliplr(outline);
         end
-        outline(1,:) = 0;
-        outline(:,1) = 0;
-        outline(:,size(outline,1)) = 0;
-        outline(size(outline,2),:) = 0;
+        %outline(1,:) = 0;
+        %outline(:,1) = 0;
+        %outline(:,size(outline,1)) = 0;
+        %outline(size(outline,2),:) = 0;
         outline = imresize(outline, [newx NaN]);
         rowshift = round((loc2(match(z),1) - loc1(z,1))) + size(im1,1) - size(outline,1);
         colshift = round(((loc2(match(z),2)+size(im1,2))-loc1(z,2))) + size(im1,2) - size(outline,2);
