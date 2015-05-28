@@ -21,6 +21,7 @@ For the CITS4402 2015 project.
     For further information, see README.md
 %}
 function project
+    warning('off','all');
     [objects, scenes] = init;
     
     gui(objects, scenes);
